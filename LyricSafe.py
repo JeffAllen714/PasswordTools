@@ -57,7 +57,6 @@ def generatePassword(lyrics):
 
     # Ensure the newPassword is at least 16 characters in length
     while len(newPassword) < 16:
-        # Add a random word until the length is at least 16 characters
         newWord = random.choice(lyricsText.split())
         newPassword += ' ' + newWord.capitalize()
 
