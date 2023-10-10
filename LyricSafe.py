@@ -1,11 +1,14 @@
 """
-lyricSafe
+LyricSafe
 GitHub: [JeffAllen714](https://github.com/JeffAllen714)
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+README: LyricScape is still in development!
+I have provided a CSV titled "vgsales_1.csv" for testing the application.
 
 ## Description ##
-lyricSafe is a password generator application that produces secure passwords, based on song lyrics!
+LyricSafe is a password generator application that produces secure passwords, based on song lyrics!
+
 
 ## Features ##
 
@@ -36,7 +39,7 @@ from bs4 import BeautifulSoup
 
 
 def generatePassword(lyrics):
-    # Generates the new password for the user and ensures a high level of security
+    # Generates a new password for the user and ensures a high level of security
     # Check if lyrics are not empty...
     if not lyrics:
         return None
@@ -49,6 +52,12 @@ def generatePassword(lyrics):
 
     # Capitalize the first letter of each word
     newPassword = ' '.join(word.capitalize() for word in randomWords)
+
+    # Ensure the newPassword is at least 16 characters in length
+    while len(newPassword) < 16:
+        # Add a random word until the length is at least 16 characters
+        newWord = random.choice(lyricsText.split())
+        newPassword += ' ' + newWord.capitalize()
 
     # Limit the newPassword to a maximum of 24 characters
     newPassword = newPassword[:24]
@@ -96,8 +105,8 @@ class LyricSafe:
         try:
             with open(self.lyrics_file, 'r') as csv_file:
                 reader = csv.reader(csv_file)
-                # TODO: logic to correctly extract both title and lyrics
-                #  Consider changing the names to be more universal.
+                # TODO: logic to correctly extract both title and lyrics.
+                #  Currently isn't collecting anything it seems...
                 data = list(reader)
                 # titles = [row[0] for row in data]
                 lyrics = [row[1] for row in data]
@@ -106,7 +115,19 @@ class LyricSafe:
             print(f'An error occurred while reading lyrics from CSV: {e}')
             return None
 
+    def readGameTitles(self):
+        # TODO: This is a hack to run a test CSV file that I had. (Its a list of best selling video games)
+        #  The theme for this program is lyrics, but i would like to be able to at least read any CSV...
+        try:
+            with open(self.lyrics_file, 'r') as csv_file:
+                reader = csv.DictReader(csv_file)
+                game_titles = [row['Name'] for row in reader]
+                return game_titles
+        except Exception as e:
+            print(f'An error occurred while reading game titles from CSV: {e}')
+
     def getPassword(self):
+        # TODO: This feeds off of the readGameTitles function which is getting reworked in the future.
         game_titles = self.readGameTitles()
 
         if game_titles and look4DictWords(' '.join(game_titles)):
@@ -118,21 +139,7 @@ class LyricSafe:
             return self.generated_password
         else:
             print("Error: The CSV file doesn't contain any 'human-readable' content.")
-            # TODO: Wow did I really make two functions that do the same thing LOL
-            #  FIX - This is the same logic as the function above "getPassword"
             return None
-
-    def readGameTitles(self):
-        # TODO: This is a hack to run a test CSV file that I had (Its a list of best selling video games)...
-        #  ...The theme for this program is lyrics, but i would like to be able to do this with any CSV...
-        #  FIX - RENAME AND MAKE THE LOGIC UNIVERSAL
-        try:
-            with open(self.lyrics_file, 'r') as csv_file:
-                reader = csv.DictReader(csv_file)
-                game_titles = [row['Name'] for row in reader]
-                return game_titles
-        except Exception as e:
-            print(f'An error occurred while reading game titles from CSV: {e}')
 
 
 # # GUI # #
@@ -239,16 +246,16 @@ class PasswordGeneratorApp:
 
     def generate_password(self):
         # Get the URL and CSV file path from the entry fields
-        url = self.url_entry.get()
-        csv_path = self.csv_path_entry.get()
+        URL = self.url_entry.get()
+        CSV_PATH = self.csv_path_entry.get()
 
         try:
-            if url:
+            if URL:
                 # Use the generated CSV file path
-                self.lyric_safe = LyricSafe(url, url)
+                self.lyric_safe = LyricSafe(URL, URL)
             else:
                 # Use the provided CSV file path
-                self.lyric_safe = LyricSafe(csv_path, csv_path)
+                self.lyric_safe = LyricSafe(CSV_PATH, CSV_PATH)
 
             # Check if the CSV file exists and is not empty
             if not self.lyric_safe.readGameTitles():
@@ -292,4 +299,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = PasswordGeneratorApp(root)
     root.mainloop()
+
 
