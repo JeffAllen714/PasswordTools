@@ -118,7 +118,7 @@ class LyricSafe:
             return self.generated_password
         else:
             print("Warning: The CSV file doesn't contain any 'human-readable' content. Do you want to continue?")
-            # You might want to handle the user's choice here
+            # TODO: Currently the web scrapper isnt properly formatting the CSV files...UPDATE
             return None
 
     def gatherPassword(self):
@@ -133,13 +133,14 @@ class LyricSafe:
             return self.generated_password
         else:
             print("Error: The CSV file doesn't contain any 'human-readable' content.")
-            # You might want to handle the user's choice here
+            # TODO: Wow did I really make two functions that do the same thing LOL
+            #  FIX - This is the same logic as the function above "getPassword"
             return None
 
     def readGameTitles(self):
         # TODO: This is a hack to run a test CSV file that I had (Its a list of best selling video games)...
         #  ...The theme for this program is lyrics, but i would like to be able to do this with any CSV...
-        #  RENAME AND MAKE THE LOGIC UNIVERSAL
+        #  FIX - RENAME AND MAKE THE LOGIC UNIVERSAL
         try:
             with open(self.lyrics_file, 'r') as csv_file:
                 reader = csv.DictReader(csv_file)
