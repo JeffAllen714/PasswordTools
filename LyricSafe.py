@@ -13,7 +13,7 @@ lyricSafe is a password generator application that produces secure passwords, ba
 - Built in WebScraper to pull lyrics right from websites like Genius.com, Lyrics.com, etc.
 - The WebScraper pulls the info into a CSV file, but you're welcome to use your own CSV file instead.
 - Each password is tested for resilience against brute force attacks. (Tested with zxcvbn library)
-- GUI Application with a built in Web Scraper and Password Generator.
+- GUI Application with a built-in Web Scraper and Password Generator.
 - Easily copy the generated password to you clipboard.
 
 ## How to Use ##
@@ -60,7 +60,7 @@ def generatePassword(lyrics):
     newPassword += random.choice(string.punctuation)
 
     result = zxcvbn.zxcvbn(newPassword)
-    if result['score'] == 4: # very unguessable: strong protection from offline slow-hash scenario. (guesses >= 10^10)
+    if result['score'] == 4:  # very unguessable: strong protection from offline slow-hash scenario. (guesses >= 10^10)
         return newPassword
     else:
         return None
@@ -79,7 +79,6 @@ class LyricSafe:
 
     Attributes:
         lyrics_file (str): The path to the CSV file containing song titles and lyrics.
-        default_file_path (str): The default file path used when a specific path is not provided.
         generated_password (str): The generated password based on song lyrics.
 
     Methods:
@@ -93,13 +92,14 @@ class LyricSafe:
         self.generated_password = ""
 
     def readLyrics(self):
+        # Reads and extracts lyrics from the CSV file.
         try:
             with open(self.lyrics_file, 'r') as csv_file:
                 reader = csv.reader(csv_file)
                 # TODO: logic to correctly extract both title and lyrics
-                #  Consider changing the names to be more universal (Columns, Rows)
+                #  Consider changing the names to be more universal.
                 data = list(reader)
-                titles = [row[0] for row in data]
+                # titles = [row[0] for row in data]
                 lyrics = [row[1] for row in data]
                 return ' '.join(lyrics)
         except Exception as e:
@@ -107,21 +107,6 @@ class LyricSafe:
             return None
 
     def getPassword(self):
-        game_titles = self.readGameTitles()
-
-        if game_titles and look4DictWords(' '.join(game_titles)):
-            generated_password = generatePassword(game_titles)
-            while generated_password is None:
-                generated_password = generatePassword(game_titles)
-
-            self.generated_password = generated_password
-            return self.generated_password
-        else:
-            print("Warning: The CSV file doesn't contain any 'human-readable' content. Do you want to continue?")
-            # TODO: Currently the web scrapper isnt properly formatting the CSV files...UPDATE
-            return None
-
-    def gatherPassword(self):
         game_titles = self.readGameTitles()
 
         if game_titles and look4DictWords(' '.join(game_titles)):
@@ -241,7 +226,13 @@ class PasswordGeneratorApp:
             else:
                 print('Failed to retrieve the webpage. Status code:', RESPONSE.status_code)
         except requests.exceptions.MissingSchema:
-            suggested_url = f"https://{URL}"
+            # Check if the URL ends with a common top-level domain
+            common_tlds = ['.com', '.net', '.org', '.gov', '.edu']
+            if any(URL.lower().endswith(tld) for tld in common_tlds):
+                suggested_url = f"https://{URL}"
+            else:
+                suggested_url = f"https://{URL}.com"
+            # Suggest FQDN based upon user input
             self.password_label.config(text=f"Error: You must provide the whole URL. Did you mean \"{suggested_url}\"?")
         except Exception as e:
             print(f"Error: {e}")
@@ -264,7 +255,7 @@ class PasswordGeneratorApp:
                 self.password_label.config(text="Error: CSV file is empty or does not exist.")
                 return
 
-            generated_password = self.lyric_safe.gatherPassword()
+            generated_password = self.lyric_safe.getPassword()
             if generated_password:
                 # Remove spaces from the generated password
                 generated_password = generated_password.replace(' ', '')
@@ -301,3 +292,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = PasswordGeneratorApp(root)
     root.mainloop()
+
