@@ -3,7 +3,7 @@ LyricSafe
 GitHub: [JeffAllen714](https://github.com/JeffAllen714)
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-README: LyricScape is still in development!
+README: LyricSafe is still in development!
 I have provided a CSV titled "vgsales_1.csv" for testing the application below.
 
 https://github.com/JeffAllen714/PasswordTools/blob/main/vgsales_1.csv
