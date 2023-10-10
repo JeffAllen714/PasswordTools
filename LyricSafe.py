@@ -9,16 +9,19 @@ lyricSafe is a password generator application that produces secure passwords, ba
 
 ## Features ##
 
-- Generate strong and secure passwords with lyrics!!!
+- Generate strong and secure passwords, with lyrics!
+- Built in WebScraper to pull lyrics right from websites like Genius.com, Lyrics.com, etc.
+- The WebScraper pulls the info into a CSV file, but you're welcome to use your own CSV file instead.
 - Each password is tested for resilience against brute force attacks. (Tested with zxcvbn library)
 - GUI Application with a built in Web Scraper and Password Generator.
+- Easily copy the generated password to you clipboard.
 
 ## How to Use ##
 
 1. Run the script. (A GUI will pop up)
-2. Provide a website to be scraped (Optional)
-3. Provide a CSV file (If you scraped a website, then the CSV will be provided for you)
-4. Receive a randomly generated secure password, based on song lyrics!
+2. Provide a website to be scraped. (Optional)
+3. Provide a CSV file. (If you scraped a website, then the CSV will be provided for you)
+4. Receive a randomly generated secure password based from song lyrics!
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 """
