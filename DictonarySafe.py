@@ -6,7 +6,7 @@ GitHub: [JeffAllen714](https://github.com/JeffAllen714)
 README: This was tested on MACOS and has not been verified to work on windows!!!
 
 ## Description ##
-Password Generator App is a simple yet powerful Python application that generates secure passwords...
+DictionarySafe is a simple yet powerful Python application that generates secure passwords...
 using a unique method based on the Fibonacci sequence. The application utilizes Tkinter for the GUI.
 Ment to work locally and have minimal modules for extra privacy and secure passwords.
 
