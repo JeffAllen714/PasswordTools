@@ -50,7 +50,7 @@ def fibonacci_choice(items, seed=None):
     return items[random_index]
 
 
-class PasswordGeneratorApp:
+class DictionarySafe:
     def __init__(self, master):
         self.master = master
         master.title("Password Generator")
@@ -126,5 +126,5 @@ class PasswordGeneratorApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = PasswordGeneratorApp(root)
+    app = DictionarySafe(root)
     root.mainloop()
