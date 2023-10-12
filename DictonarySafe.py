@@ -18,7 +18,7 @@ Ment to work locally and have minimal modules for extra privacy and secure passw
 ## How to Use ##
 1. Run the script.
 2. Click the "Generate Password" button to generate a new secure password.
-3. Optionally click the "Copy Password" button to copy the generated password to the clipboard
+3. You can use the "Copy Password" button to copy the generated password to the clipboard
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 """
 
